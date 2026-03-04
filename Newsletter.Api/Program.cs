@@ -1,13 +1,14 @@
 namespace Newsletter.Api
 {
-    using Microsoft.Extensions.Logging;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using Microsoft.Extensions.Logging;
+
     internal class Program
     {
-        private LoggerFactory _loggerFactory = (LoggerFactory)LoggerFactory.Create(b => b.AddConsole()); // should become readonly (IDE0044)
+        private readonly LoggerFactory _loggerFactory = (LoggerFactory)LoggerFactory.Create(b => b.AddConsole()); // should become readonly (IDE0044)
 
         static void Main(string[] args)
         {
@@ -15,9 +16,6 @@ namespace Newsletter.Api
             {
                 Console.WriteLine("No args"); // missing braces (prefer braces)
             }
-
-            var number = 42;                 // should become var (built-in + apparent)
-            var message = "hello";        // should become var (apparent)
 
             var stream = new MemoryStream(); // var elsewhere not apparent -> should become explicit type
 
