@@ -16,8 +16,7 @@ namespace Newsletter.Api
             {
                 Console.WriteLine("No args"); // missing braces (prefer braces)
             }
-
-            var stream = new MemoryStream(); // var elsewhere not apparent -> should become explicit type
+            _ = new MemoryStream(); // var elsewhere not apparent -> should become explicit type
 
             var data = new List<int>() { 5, 3, 1, 2, 4 };
             data.Sort();
