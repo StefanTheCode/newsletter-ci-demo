@@ -33,7 +33,6 @@ indent_size = 4
 # ---- Using directives ----
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = true
-dotnet_diagnostic.IDE0005.severity = warning
 
 # ---- Modern C# direction (non-breaking) ----
 csharp_style_namespace_declarations = file_scoped:suggestion
@@ -54,10 +53,8 @@ csharp_style_expression_bodied_properties = when_possible:suggestion
 # ---- Prefer explicit accessibility modifiers (reduces ambiguity) ----
 dotnet_style_require_accessibility_modifiers = always:suggestion
 
-# ---- Prefer readonly for fields that can be readonly (small, high-signal) ----
-dotnet_diagnostic.IDE0044.severity = suggestion
-
-# ---- Remove noise locals / unused params (useful in PR reviews) ----
+dotnet_diagnostic.IDE0005.severity = warning
+dotnet_diagnostic.IDE0044.severity = warning
 dotnet_diagnostic.IDE0059.severity = warning   # unnecessary assignment
 dotnet_diagnostic.IDE0060.severity = warning   # unused parameter
 
@@ -84,6 +81,7 @@ indent_size = 2
 # Generated / build artifacts: reduce analyzer noise
 # ------------------------------------------------------
 [**/Generated/**]
+file_header_template = unset
 dotnet_analyzer_diagnostic.severity = none
 dotnet_diagnostic.IDE0005.severity = none
 
@@ -94,3 +92,50 @@ dotnet_diagnostic.IDE0005.severity = none
 [*.{g,i}.cs]
 dotnet_analyzer_diagnostic.severity = none
 dotnet_diagnostic.IDE0005.severity = none
+
+# ======================================================
+# StyleCop Analyzer Configuration
+# Course Module 04: Static Analysis in .NET
+# ======================================================
+[*.cs]
+
+# File header - checked and applied by IDE0073
+file_header_template = Copyright (c) TheCodeMan. All rights reserved.\nLicensed under the MIT license.
+dotnet_diagnostic.IDE0073.severity = warning
+
+# --- Spacing & layout: keep ON, they're auto-fixable and high-value ---
+dotnet_diagnostic.SA1000.severity = warning   # Keywords spaced correctly
+dotnet_diagnostic.SA1028.severity = warning   # No trailing whitespace
+dotnet_diagnostic.SA1500.severity = warning   # Braces for multi-line statements
+
+# --- Conflicts with our deliberate conventions: turn OFF, with reasons ---
+dotnet_diagnostic.SA1101.severity = none       # Prefix local calls with this - conflicts with our style
+dotnet_diagnostic.SA1200.severity = none       # Using placement - we manage this elsewhere
+dotnet_diagnostic.SA1309.severity = none       # Underscore-prefixed fields ARE our convention
+
+# --- Ordering rules: too rigid for how we organize files ---
+dotnet_diagnostic.SA1201.severity = none
+dotnet_diagnostic.SA1202.severity = none
+
+# --- Documentation: prefer clarity through naming over mandatory XML docs ---
+dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1633.severity = none       # No mandatory file headers
+
+# --- Naming & maintainability: keep ON, they protect real conventions ---
+dotnet_diagnostic.SA1400.severity = warning    # Access modifier must be declared
+dotnet_diagnostic.SA1401.severity = warning    # Fields should be private
+
+# ======================================================
+# SonarAnalyzer Configuration
+# Course Module 04: Static Analysis in .NET
+# ======================================================
+dotnet_diagnostic.S1135.severity = suggestion   # Track TODOs - keep as a hint, not a blocker
+dotnet_diagnostic.S1118.severity = none          # Utility class private ctor - too strict here
+dotnet_diagnostic.S106.severity = none           # Console output is intentional in this console entry point
+
+# ======================================================
+# Test projects: relax naming for descriptive test names
+# ======================================================
+[Newsletter.Tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none
+dotnet_diagnostic.IDE1006.severity = none

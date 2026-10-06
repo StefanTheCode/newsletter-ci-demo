@@ -1,14 +1,19 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/Solution Items/snippets/">
+    <File Path="guard.snippet" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="Newsletter.Api/Newsletter.Api.csproj" />
-    <Project Path="Newsletter.Application/Newsletter.Application.csproj" />
-    <Project Path="Newsletter.Domain/Newsletter.Domain.csproj" />
-    <Project Path="Newsletter.Infrastructure/Newsletter.Infrastructure.csproj" />
+    <Project Path="../../../../../../Desktop/TheCodeMan/Course - Pragmatic .NET Code Rules/Code/NewsletterCourse - Copy/Newsletter.Api/Newsletter.Api.csproj" />
+    <Project Path="../../../../../../Desktop/TheCodeMan/Course - Pragmatic .NET Code Rules/Code/NewsletterCourse - Copy/Newsletter.Application/Newsletter.Application.csproj" />
+    <Project Path="../../../../../../Desktop/TheCodeMan/Course - Pragmatic .NET Code Rules/Code/NewsletterCourse - Copy/Newsletter.Domain/Newsletter.Domain.csproj" />
+    <Project Path="../../../../../../Desktop/TheCodeMan/Course - Pragmatic .NET Code Rules/Code/NewsletterCourse - Copy/Newsletter.Infrastructure/Newsletter.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="Newsletter.Tests/Newsletter.Tests.csproj" />
+    <Project Path="../../../../../../Desktop/TheCodeMan/Course - Pragmatic .NET Code Rules/Code/NewsletterCourse - Copy/Newsletter.Tests/Newsletter.Tests.csproj" />
   </Folder>
 </Solution>

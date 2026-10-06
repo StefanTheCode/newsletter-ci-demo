@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>guard</Title>
+			<Shortcut>guard</Shortcut>
+			<Description>Null-check guard clause that throws</Description>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>arg</ID>
+					<ToolTip>Argument to check</ToolTip>
+					<Default>argument</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="csharp"><![CDATA[ArgumentNullException.ThrowIfNull($arg$);$end$]]></Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
