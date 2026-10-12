@@ -1,6 +1,8 @@
 // Copyright (c) TheCodeMan. All rights reserved.
 // Licensed under the MIT license.
 
+using Newsletter.Core.Helpers;
+
 namespace Newsletter.Domain.Entities;
 
 public sealed class Subscriber
@@ -26,6 +28,6 @@ public sealed class Subscriber
 
     public static Subscriber Create(string email, string firstName)
     {
-        return new Subscriber(Guid.NewGuid(), email, firstName, DateTime.UtcNow, isActive: true);
+        return new Subscriber(Guid.NewGuid(), EmailNormalizer.Normalize(email), firstName, DateTime.UtcNow, isActive: true);
     }
 }

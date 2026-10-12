@@ -8,6 +8,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Newsletter.Domain\Newsletter.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
