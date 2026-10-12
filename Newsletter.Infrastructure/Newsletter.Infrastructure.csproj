@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Newsletter.Application\Newsletter.Application.csproj" />
+    <ProjectReference Include="..\Newsletter.Domain\Newsletter.Domain.csproj" />
   </ItemGroup>
 
 </Project>

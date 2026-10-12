@@ -136,6 +136,7 @@ dotnet_diagnostic.S106.severity = none           # Console output is intentional
 # ======================================================
 # Test projects: relax naming for descriptive test names
 # ======================================================
-[Newsletter.Tests/**/*.cs]
+# Module 07 fix: '**/*.cs' never matched files in the project ROOT. '**.cs' does.
+[*Tests/**.cs]
 dotnet_diagnostic.CA1707.severity = none
 dotnet_diagnostic.IDE1006.severity = none
