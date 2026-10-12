@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Newsletter.Api.Contracts;
-using Newsletter.Application.Commands;
+using Newsletter.Application.Articles.PublishArticle;
 using Newsletter.Application.Exceptions;
-using Newsletter.Application.Handlers;
+using Newsletter.Application.Subscribers.CreateSubscriber;
 using Newsletter.Domain.Entities;
 using Newsletter.Domain.Repositories;
 using Newsletter.Infrastructure;

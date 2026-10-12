@@ -1,7 +1,7 @@
 // Copyright (c) TheCodeMan. All rights reserved.
 // Licensed under the MIT license.
 
-using Newsletter.Core.Helpers;
+using Newsletter.Domain.Services;
 
 namespace Newsletter.Domain.Entities;
 

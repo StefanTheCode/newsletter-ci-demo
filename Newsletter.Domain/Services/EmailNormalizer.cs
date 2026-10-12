@@ -1,15 +1,14 @@
 // Copyright (c) TheCodeMan. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Newsletter.Core.Helpers
-{
-    using System.Globalization;
+using System.Globalization;
 
-    public static class EmailNormalizer
+namespace Newsletter.Domain.Services;
+
+public static class EmailNormalizer
+{
+    public static string Normalize(string email)
     {
-        public static string Normalize(string email)
-        {
-            return email.Trim().ToLower(CultureInfo.InvariantCulture);
-        }
+        return email.Trim().ToLower(CultureInfo.InvariantCulture);
     }
 }

@@ -1,12 +1,11 @@
 // Copyright (c) TheCodeMan. All rights reserved.
 // Licensed under the MIT license.
 
-using Newsletter.Application.Commands;
 using Newsletter.Application.Exceptions;
 using Newsletter.Domain.Entities;
 using Newsletter.Domain.Repositories;
 
-namespace Newsletter.Application.Handlers;
+namespace Newsletter.Application.Articles.PublishArticle;
 
 public sealed class PublishArticleCommandHandler
 {
