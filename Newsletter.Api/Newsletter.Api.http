@@ -1,6 +1,31 @@
 @Newsletter.Api_HostAddress = http://localhost:5081
 
-GET {{Newsletter.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### 1) null sneaks into a non-nullable string (201 before the fix, 400 after)
+POST {{Newsletter.Api_HostAddress}}/api/subscribers
+Content-Type: application/json
+
+{ "email": null, "firstName": "Stefan" }
+
+### 2) the null is now stored
+GET {{Newsletter.Api_HostAddress}}/api/subscribers
+
+### 3) a DIFFERENT request crashes on the stored null (500 before the fix, 400 after)
+POST {{Newsletter.Api_HostAddress}}/api/subscribers
+Content-Type: application/json
+
+{ "firstName": "Ana" }
+
+### 4) valid request (201)
+POST {{Newsletter.Api_HostAddress}}/api/subscribers
+Content-Type: application/json
+
+{ "email": "Ana@Example.com ", "firstName": "Ana" }
+
+### 5) articles
+POST {{Newsletter.Api_HostAddress}}/api/articles
+Content-Type: application/json
+
+{ "title": "Pragmatic rules", "content": "Let the build enforce it." }
 
 ###
+GET {{Newsletter.Api_HostAddress}}/api/articles
