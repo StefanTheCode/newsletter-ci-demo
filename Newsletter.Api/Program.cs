@@ -13,6 +13,13 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
+// Nullable annotations are compile-time only. Make the JSON boundary respect them at runtime too.
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.RespectNullableAnnotations = true;
+    options.SerializerOptions.RespectRequiredConstructorParameters = true;
+});
+
 builder.Services.AddInfrastructure();
 builder.Services.AddTransient<CreateSubscriberCommandHandler>();
 builder.Services.AddTransient<PublishArticleCommandHandler>();

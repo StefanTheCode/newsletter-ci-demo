@@ -18,7 +18,7 @@ public sealed class Article
 
     public string Content { get; private set; }
 
-    public string Slug { get; private set; } = null!;
+    public string? Slug { get; private set; }
 
     public DateTime? PublishedOnUtc { get; private set; }
 
