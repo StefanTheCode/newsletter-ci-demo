@@ -15,6 +15,7 @@
     <Project Path="Newsletter.Infrastructure/Newsletter.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="Newsletter.ArchitectureTests/Newsletter.ArchitectureTests.csproj" />
     <Project Path="Newsletter.Tests/Newsletter.Tests.csproj" />
   </Folder>
 </Solution>
