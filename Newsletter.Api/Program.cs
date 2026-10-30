@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 using Newsletter.Api.Contracts;
+using Newsletter.Application.Articles.CreateArticle;
+using Newsletter.Application.Articles.GetPublishedArticles;
 using Newsletter.Application.Articles.PublishArticle;
 using Newsletter.Application.Exceptions;
 using Newsletter.Application.Subscribers.CreateSubscriber;
-using Newsletter.Domain.Entities;
-using Newsletter.Domain.Repositories;
+using Newsletter.Application.Subscribers.GetActiveSubscribers;
 using Newsletter.Infrastructure;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,10 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 
 builder.Services.AddInfrastructure();
 builder.Services.AddTransient<CreateSubscriberCommandHandler>();
+builder.Services.AddTransient<GetActiveSubscribersQueryHandler>();
+builder.Services.AddTransient<CreateArticleCommandHandler>();
 builder.Services.AddTransient<PublishArticleCommandHandler>();
+builder.Services.AddTransient<GetPublishedArticlesQueryHandler>();
 
 WebApplication app = builder.Build();
 
@@ -48,17 +52,13 @@ app.MapPost("/api/subscribers", async (
     }
 });
 
-app.MapGet("/api/subscribers", async (ISubscriberRepository repository, CancellationToken cancellationToken) =>
-{
-    List<Subscriber> subscribers = await repository.GetAllActiveAsync(cancellationToken);
-    return Results.Ok(subscribers);
-});
+app.MapGet("/api/subscribers", async (GetActiveSubscribersQueryHandler handler, CancellationToken cancellationToken) =>
+    Results.Ok(await handler.HandleAsync(cancellationToken)));
 
-app.MapPost("/api/articles", async (CreateArticleRequest request, IArticleRepository repository, CancellationToken cancellationToken) =>
+app.MapPost("/api/articles", async (CreateArticleRequest request, CreateArticleCommandHandler handler, CancellationToken cancellationToken) =>
 {
-    Article article = Article.Create(request.Title, request.Content);
-    await repository.AddAsync(article, cancellationToken);
-    return Results.Created($"/api/articles/{article.Id}", new { id = article.Id });
+    Guid id = await handler.HandleAsync(new CreateArticleCommand(request.Title, request.Content), cancellationToken);
+    return Results.Created($"/api/articles/{id}", new { id });
 });
 
 app.MapPost("/api/articles/{id:guid}/publish", async (Guid id, PublishArticleCommandHandler handler, CancellationToken cancellationToken) =>
@@ -74,10 +74,7 @@ app.MapPost("/api/articles/{id:guid}/publish", async (Guid id, PublishArticleCom
     }
 });
 
-app.MapGet("/api/articles", async (IArticleRepository repository, CancellationToken cancellationToken) =>
-{
-    List<Article> articles = await repository.GetAllPublishedAsync(cancellationToken);
-    return Results.Ok(articles);
-});
+app.MapGet("/api/articles", async (GetPublishedArticlesQueryHandler handler, CancellationToken cancellationToken) =>
+    Results.Ok(await handler.HandleAsync(cancellationToken)));
 
 await app.RunAsync();
