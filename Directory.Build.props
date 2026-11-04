@@ -22,6 +22,15 @@
     <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Label="Dependencies">
+    <!-- Module 09: same packages on every machine and in CI (restore with locked mode in CI) -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Module 09: vulnerable packages - direct AND transitive - are warnings, so errors with WAE -->
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+  </PropertyGroup>
+
   <PropertyGroup Label="Build Output">
     <Deterministic>true</Deterministic>
   </PropertyGroup>

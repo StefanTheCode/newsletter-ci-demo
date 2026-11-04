@@ -3,6 +3,8 @@ name: quality
 on:
   pull_request:
     branches: [main]
+    # labeled/unlabeled: adding suppression-approved must start a new run (a re-run reuses the old labels)
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   push:
     branches: [main]
 
@@ -23,9 +25,11 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: Restore
-        run: dotnet restore Newsletter.slnx
+      - name: Restore (locked)
+        run: dotnet restore Newsletter.slnx --locked-mode
 
       - name: Verify formatting
         run: dotnet format Newsletter.slnx --verify-no-changes --no-restore --verbosity normal
@@ -39,9 +43,13 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
+          cache: true
+          cache-dependency-path: "**/packages.lock.json"
 
-      - name: Restore
-        run: dotnet restore Newsletter.slnx
+      # Locked mode: CI restores exactly what is in packages.lock.json, or fails (NU1004).
+      # NuGetAudit runs here too - a vulnerable package is NU190x, an error with WAE.
+      - name: Restore (locked)
+        run: dotnet restore Newsletter.slnx --locked-mode
 
       # Analyzers + code style (EnforceCodeStyleInBuild) run inside the build.
       # TreatWarningsAsErrors comes from Directory.Build.props - never override it here.
@@ -60,3 +68,17 @@ jobs:
         with:
           name: test-results
           path: TestResults/*.trx
+
+  no-new-suppressions:
+    name: no-new-suppressions
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # we diff against the base branch
+
+      - name: Check for new suppressions
+        env:
+          SUPPRESSION_APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'suppression-approved') }}
+        run: bash scripts/check-suppressions.sh "origin/${{ github.base_ref }}"
