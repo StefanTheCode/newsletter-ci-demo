@@ -8,6 +8,7 @@ using Newsletter.Application.Articles.PublishArticle;
 using Newsletter.Application.Exceptions;
 using Newsletter.Application.Subscribers.CreateSubscriber;
 using Newsletter.Application.Subscribers.GetActiveSubscribers;
+using Newsletter.Domain.Repositories;
 using Newsletter.Infrastructure;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -76,5 +77,11 @@ app.MapPost("/api/articles/{id:guid}/publish", async (Guid id, PublishArticleCom
 
 app.MapGet("/api/articles", async (GetPublishedArticlesQueryHandler handler, CancellationToken cancellationToken) =>
     Results.Ok(await handler.HandleAsync(cancellationToken)));
+
+app.MapGet("/api/subscribers/count", async (ISubscriberRepository repository, CancellationToken cancellationToken) =>
+{
+      var subscribers = await repository.GetAllActiveAsync(cancellationToken);
+      return Results.Ok(new { count = subscribers.Count });
+});
 
 await app.RunAsync();
