@@ -77,4 +77,10 @@ app.MapPost("/api/articles/{id:guid}/publish", async (Guid id, PublishArticleCom
 app.MapGet("/api/articles", async (GetPublishedArticlesQueryHandler handler, CancellationToken cancellationToken) =>
     Results.Ok(await handler.HandleAsync(cancellationToken)));
 
+app.MapGet("/api/subscribers/count", async (GetActiveSubscribersQueryHandler handler, CancellationToken cancellationToken) =>
+{
+    var subscribers = await handler.HandleAsync(cancellationToken);
+    return Results.Ok(new { count = subscribers.Count });
+});
+
 await app.RunAsync();
