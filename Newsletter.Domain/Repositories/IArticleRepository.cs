@@ -11,5 +11,7 @@ public interface IArticleRepository
 
     Task<List<Article>> GetAllPublishedAsync(CancellationToken cancellationToken = default);
 
+    Task<int> CountPublishedAsync(CancellationToken cancellationToken = default);
+
     Task AddAsync(Article article, CancellationToken cancellationToken = default);
 }
