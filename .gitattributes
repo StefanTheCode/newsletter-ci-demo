@@ -1,0 +1,6 @@
+# Module 09: the CI runner is Linux. Store text files with LF, whatever OS you're on.
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
