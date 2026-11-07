@@ -36,13 +36,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapPost("/api/subscribers", async (
-    CreateSubscriberRequest request,
+      CreateSubscriberRequest request,
     CreateSubscriberCommandHandler handler,
     CancellationToken cancellationToken) =>
 {
     try
     {
-        var command = new CreateSubscriberCommand(request.Email, request.FirstName);
+          var command = new CreateSubscriberCommand(request.Email, request.FirstName);
         Guid id = await handler.HandleAsync(command, cancellationToken);
         return Results.Created($"/api/subscribers/{id}", new { id });
     }
