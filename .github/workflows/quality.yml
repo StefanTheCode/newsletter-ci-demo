@@ -29,3 +29,34 @@ jobs:
 
       - name: Verify formatting
         run: dotnet format Newsletter.slnx --verify-no-changes --no-restore --verbosity normal
+
+  build-and-test:
+    name: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore Newsletter.slnx
+
+      # Analyzers + code style (EnforceCodeStyleInBuild) run inside the build.
+      # TreatWarningsAsErrors comes from Directory.Build.props - never override it here.
+      - name: Build (Release)
+        run: dotnet build Newsletter.slnx --configuration Release --no-restore
+
+      # Unit tests + architecture tests from Module 08
+      - name: Test
+        run: >
+          dotnet test Newsletter.slnx --configuration Release --no-build
+          --logger trx --results-directory TestResults
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: TestResults/*.trx

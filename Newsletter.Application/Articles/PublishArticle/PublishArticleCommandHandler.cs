@@ -25,6 +25,7 @@ public sealed class PublishArticleCommandHandler
             throw new NewsletterException($"Article with id '{command.ArticleId}' was not found.");
         }
 
+        var retries = 3;
         article.Publish();
     }
 }
