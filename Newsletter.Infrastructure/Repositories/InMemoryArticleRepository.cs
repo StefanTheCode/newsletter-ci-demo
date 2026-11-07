@@ -28,6 +28,13 @@ internal sealed class InMemoryArticleRepository : IArticleRepository
         return Task.FromResult(publishedArticles);
     }
 
+    public Task<int> CountPublishedAsync(CancellationToken cancellationToken = default)
+    {
+        int count = _articles.Values.Count(a => a.IsPublished);
+
+        return Task.FromResult(count);
+    }
+
     public Task AddAsync(Article article, CancellationToken cancellationToken = default)
     {
         _articles.TryAdd(article.Id, article);

@@ -4,6 +4,7 @@
 using Newsletter.Api.Contracts;
 using Newsletter.Application.Articles.CreateArticle;
 using Newsletter.Application.Articles.GetPublishedArticles;
+using Newsletter.Application.Articles.GetPublishedArticlesCount;
 using Newsletter.Application.Articles.PublishArticle;
 using Newsletter.Application.Exceptions;
 using Newsletter.Application.Subscribers.CreateSubscriber;
@@ -27,6 +28,7 @@ builder.Services.AddTransient<GetActiveSubscribersQueryHandler>();
 builder.Services.AddTransient<CreateArticleCommandHandler>();
 builder.Services.AddTransient<PublishArticleCommandHandler>();
 builder.Services.AddTransient<GetPublishedArticlesQueryHandler>();
+builder.Services.AddTransient<GetPublishedArticlesCountQueryHandler>();
 
 WebApplication app = builder.Build();
 
@@ -75,6 +77,9 @@ app.MapPost("/api/articles/{id:guid}/publish", async (Guid id, PublishArticleCom
 });
 
 app.MapGet("/api/articles", async (GetPublishedArticlesQueryHandler handler, CancellationToken cancellationToken) =>
+    Results.Ok(await handler.HandleAsync(cancellationToken)));
+
+app.MapGet("/api/articles/count", async (GetPublishedArticlesCountQueryHandler handler, CancellationToken cancellationToken) =>
     Results.Ok(await handler.HandleAsync(cancellationToken)));
 
 app.MapGet("/api/subscribers/count", async (GetActiveSubscribersQueryHandler handler, CancellationToken cancellationToken) =>
